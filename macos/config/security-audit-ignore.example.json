@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "ignore": [
+    {
+      "path": "01_Projects/Work/Active/Example/tests/fixtures/*",
+      "codes": [
+        "GITHUB_TOKEN"
+      ],
+      "reason": "Only use an exception after confirming the value is synthetic."
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/operational-slo.schema.json",
+  "title": "Workspace OS Rolling Operational SLO",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "status",
+    "window_days",
+    "sample_days",
+    "current_failed_signals",
+    "metrics",
+    "findings",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["healthy", "degraded", "insufficient-data"] },
+    "window_days": { "type": "integer", "minimum": 1 },
+    "sample_days": { "type": "integer", "minimum": 0 },
+    "current_failed_signals": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "target_percent",
+          "actual_percent",
+          "sample_days",
+          "successful_days",
+          "failed_days",
+          "allowed_failed_days",
+          "remaining_failed_days",
+          "budget_exhausted",
+          "consecutive_failed_days",
+          "current"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code", "message"],
+        "properties": {
+          "severity": { "enum": ["INFO", "WARNING", "ERROR", "CRITICAL"] },
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "properties": {
+        "paths_included": { "const": false },
+        "credentials_included": { "const": false },
+        "business_file_metadata_included": { "const": false }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

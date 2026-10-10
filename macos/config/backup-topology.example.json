@@ -1,0 +1,5 @@
+{
+  "schema_version": "1.0",
+  "local_snapshot_distinct_physical_media": false,
+  "confirmation_note": "Set true only after confirming the snapshot target is on a different physical device, not merely another partition."
+}

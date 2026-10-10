@@ -1,0 +1,6 @@
+# 项目状态
+
+当前状态：`PLANNING`
+
+状态固定为：INBOX / PLANNING / ACTIVE / BLOCKED / REVIEW / RELEASED / PAUSED / ARCHIVED。素材齐备后进入 ACTIVE，送审进入 REVIEW，母版校验后进入 RELEASED，确认素材保留策略后才可 ARCHIVED。
+

@@ -1,0 +1,9 @@
+privacy_mode: metadata-only
+rules:
+  # Python 标准库加载器支持映射；复杂规则建议由调用方以 JSON 格式保存到 .yaml。
+  boe_target: 01_Projects/Work/Active/BOE_DataWrite
+defaults:
+  unknown: 00_Inbox/ToSort
+  image: 03_Assets/Images
+  video: 03_Assets/Video
+  installer: 06_Release/Installers

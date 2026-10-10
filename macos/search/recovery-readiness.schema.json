@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/recovery-readiness.schema.json",
+  "title": "Workspace OS Recovery Readiness",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "workspace",
+    "snapshot_root",
+    "status",
+    "score",
+    "objectives",
+    "coverage",
+    "evidence",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.5" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "workspace": { "type": "string", "minLength": 1 },
+    "snapshot_root": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["ready", "degraded", "unprotected"] },
+    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "objectives": {
+      "type": "object",
+      "required": ["rpo_hours", "restore_drill_max_days", "verification_max_days"],
+      "properties": {
+        "rpo_hours": { "type": "integer", "minimum": 1 },
+        "restore_drill_max_days": { "type": "integer", "minimum": 1 },
+        "verification_max_days": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": true
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "confirmed_copies",
+        "confirmed_media",
+        "confirmed_offsite",
+        "meets_3_2_1"
+      ],
+      "properties": {
+        "confirmed_copies": { "type": "integer", "minimum": 1 },
+        "confirmed_media": { "type": "integer", "minimum": 1 },
+        "confirmed_offsite": { "type": "integer", "minimum": 0 },
+        "meets_3_2_1": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "latest_snapshot",
+        "snapshot_verified",
+        "snapshot_trusted",
+        "verification_valid",
+        "verification_matches_latest",
+        "verification_manifest_matches",
+        "source_consistency_verified",
+        "restore_drill_passed",
+        "restore_drill_snapshot_matches",
+        "restore_drill_manifest_matches"
+      ],
+      "properties": {
+        "latest_snapshot": { "type": ["string", "null"] },
+        "snapshot_verified": { "type": "boolean" },
+        "snapshot_trusted": { "type": "boolean" },
+        "verification_valid": { "type": "boolean" },
+        "verification_matches_latest": { "type": "boolean" },
+        "verification_manifest_matches": { "type": "boolean" },
+        "source_consistency_verified": { "type": "boolean" },
+        "verification_age_days": { "type": ["number", "null"], "minimum": 0 },
+        "current_snapshot_manifest_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "restore_drill_passed": { "type": "boolean" },
+        "restore_drill_snapshot_matches": { "type": "boolean" },
+        "restore_drill_manifest_matches": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code", "message"],
+        "properties": {
+          "severity": { "enum": ["INFO", "WARNING", "ERROR", "CRITICAL"] },
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

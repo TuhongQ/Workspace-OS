@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/maintenance-integrity-drill.schema.json",
+  "title": "Workspace OS Maintenance Integrity Drill",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "performed_at",
+    "scope",
+    "result",
+    "drill_root",
+    "production_tasks_modified",
+    "injected_findings",
+    "detected_findings",
+    "audit_status",
+    "overwritten_user_files",
+    "deleted_user_files"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "performed_at": { "type": "string", "format": "date-time" },
+    "scope": { "const": "maintenance-integrity" },
+    "result": { "enum": ["passed", "failed"] },
+    "drill_root": { "type": "string", "minLength": 1 },
+    "production_tasks_modified": { "const": false },
+    "injected_findings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "detected_findings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "audit_status": { "const": "critical" },
+    "overwritten_user_files": { "const": 0 },
+    "deleted_user_files": { "const": 0 }
+  },
+  "additionalProperties": true
+}

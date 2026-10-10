@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/device-manifest-1.0.json",
+  "title": "Workspace OS Device Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "device_id",
+    "workspace_instance",
+    "privacy_mode",
+    "scopes",
+    "status",
+    "file_count",
+    "inventory_sha256",
+    "files"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "device_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "workspace_instance": { "type": "string", "pattern": "^[0-9a-f]{24}$" },
+    "privacy_mode": { "const": "relative-paths-and-hashes" },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "status": { "enum": ["ready", "blocked"] },
+    "file_count": { "type": "integer", "minimum": 0 },
+    "total_bytes": { "type": "integer", "minimum": 0 },
+    "inventory_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "size", "sha256"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["file", "symlink"] },
+          "size": { "type": "integer", "minimum": 0 },
+          "modified_ns": { "type": "integer", "minimum": 0 },
+          "sha256": {
+            "oneOf": [
+              { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+              { "type": "null" }
+            ]
+          },
+          "target": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "mode": "copy",
+  "created_at": "2026-07-22T00:00:00Z",
+  "operations": [
+    {"source": "源路径", "destination": "目标路径", "sha256": "", "rollback": "将目标移入隔离区；不自动删除"}
+  ]
+}
+

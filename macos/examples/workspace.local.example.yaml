@@ -1,0 +1,8 @@
+workspace_name: Workspace
+device_name: Windows-工作站
+privacy_mode: metadata-only
+paths:
+  windows: D:\数字资产\My Workspace
+  macos: /Users/example/数字资产/My Workspace
+  nas: /Volumes/Workspace
+

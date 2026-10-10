@@ -1,0 +1,10 @@
+builds/
+release/
+archive/
+.env
+*.key
+*.pem
+__pycache__/
+.venv/
+node_modules/
+

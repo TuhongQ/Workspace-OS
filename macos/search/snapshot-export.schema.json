@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/snapshot-export-1.0.json",
+  "title": "Workspace OS Verified Snapshot Export",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "mode",
+    "status",
+    "source_snapshot",
+    "target_snapshot",
+    "media_root",
+    "media_id",
+    "source_manifest_sha256",
+    "source_verified",
+    "checked_files",
+    "distinct_volume",
+    "eligible_for_distinct_media",
+    "overwritten_files",
+    "deleted_files"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "mode": { "enum": ["dry-run", "apply"] },
+    "status": { "enum": ["planned", "blocked", "exported", "existing-verified"] },
+    "source_snapshot": { "type": "string", "minLength": 1 },
+    "target_snapshot": { "type": "string", "minLength": 1 },
+    "media_root": { "type": "string", "minLength": 1 },
+    "media_id": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "media_label": { "type": ["string", "null"] },
+    "source_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "source_verified": { "type": "boolean" },
+    "target_verified": { "type": "boolean" },
+    "checked_files": { "type": "integer", "minimum": 0 },
+    "source_volume": { "type": "string" },
+    "workspace_volume": { "type": "string" },
+    "media_volume": { "type": "string" },
+    "distinct_volume": { "type": "boolean" },
+    "eligible_for_distinct_media": { "type": "boolean" },
+    "receipt": { "type": "string" },
+    "receipt_id": { "type": "string", "pattern": "^[0-9a-f]{24}$" },
+    "exported_at": { "type": "string", "format": "date-time" },
+    "recovered_transactions": { "type": "array" },
+    "overwritten_files": { "const": 0 },
+    "deleted_files": { "const": 0 },
+    "issues": { "type": "array" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "enum": ["exported", "existing-verified"] } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["target_verified", "receipt", "receipt_id", "exported_at"],
+        "properties": { "target_verified": { "const": true } }
+      }
+    }
+  ],
+  "additionalProperties": true
+}

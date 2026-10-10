@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workspace OS Index",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "files"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "files": {"type": "array", "items": {"type": "object", "required": ["path","name","extension","size","created_time","modified_time","project","category","version","status","tags","sha256","summary","device","archive_state"]}}
+  }
+}
+

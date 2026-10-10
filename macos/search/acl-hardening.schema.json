@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/acl-hardening.schema.json",
+  "title": "Workspace OS Protected Directory ACL Hardening",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "workspace",
+    "status",
+    "privacy_mode",
+    "policy",
+    "backup_root",
+    "targets",
+    "summary",
+    "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "workspace": {"type": "string"},
+    "status": {
+      "enum": ["preview", "applying", "applied", "unchanged", "failed"]
+    },
+    "privacy_mode": {"const": "sid-classes-no-user-names"},
+    "policy": {
+      "type": "object",
+      "required": [
+        "inheritance_protected",
+        "trusted_principal_classes",
+        "broad_principal_sids_denied"
+      ],
+      "properties": {
+        "inheritance_protected": {"const": true},
+        "trusted_principal_classes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "broad_principal_sids_denied": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "backup_root": {"type": ["string", "null"]},
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "relative",
+          "path",
+          "exists",
+          "desired_before",
+          "action",
+          "desired_after"
+        ],
+        "properties": {
+          "relative": {"type": "string"},
+          "path": {"type": "string"},
+          "exists": {"type": "boolean"},
+          "desired_before": {"type": "boolean"},
+          "action": {
+            "enum": [
+              "missing",
+              "unchanged",
+              "would-protect",
+              "protected",
+              "verification-failed"
+            ]
+          },
+          "desired_after": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "configured",
+        "existing",
+        "missing",
+        "changes_required",
+        "changed",
+        "verified",
+        "failed",
+        "content_overwrites",
+        "content_deletions"
+      ],
+      "properties": {
+        "configured": {"type": "integer", "minimum": 0},
+        "existing": {"type": "integer", "minimum": 0},
+        "missing": {"type": "integer", "minimum": 0},
+        "changes_required": {"type": "integer", "minimum": 0},
+        "changed": {"type": "integer", "minimum": 0},
+        "verified": {"type": "integer", "minimum": 0},
+        "failed": {"type": "integer", "minimum": 0},
+        "content_overwrites": {"const": 0},
+        "content_deletions": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "outputs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "failure": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {"type": "string"},
+        "message": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/operations-history-status.schema.json",
+  "title": "Workspace OS Operations History Verification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "checked_at",
+    "status",
+    "valid",
+    "record_count",
+    "issues"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "checked_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["empty", "valid", "invalid"] },
+    "valid": { "type": "boolean" },
+    "record_count": { "type": "integer", "minimum": 0 },
+    "latest_sequence": { "type": ["integer", "null"], "minimum": 1 },
+    "latest_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "properties": { "code": { "type": "string", "minLength": 1 } },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

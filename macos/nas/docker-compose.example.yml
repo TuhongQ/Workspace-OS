@@ -1,0 +1,16 @@
+services:
+  index-viewer:
+    image: nginx:alpine
+    container_name: workspace-index-viewer
+    restart: unless-stopped
+    read_only: true
+    ports:
+      - "127.0.0.1:8088:80"
+    volumes:
+      - /path/to/Workspace/08_Indexes:/usr/share/nginx/html:ro
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+# 示例只提供只读静态索引，不暴露公网；请修改绝对路径并使用反向代理认证。
+

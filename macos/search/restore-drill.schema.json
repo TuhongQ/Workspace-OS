@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/restore-drill.schema.json",
+  "title": "Workspace OS Canary Restore Drill",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "performed_at",
+    "scope",
+    "result",
+    "snapshot",
+    "duration_ms",
+    "rto_observed_seconds",
+    "checked_files",
+    "checked_bytes",
+    "temporary_content_removed",
+    "issues"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "performed_at": { "type": "string", "format": "date-time" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "scope": { "const": "canary" },
+    "result": { "enum": ["passed", "failed"] },
+    "snapshot": { "type": "string", "minLength": 1 },
+    "snapshot_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verification_report": { "type": "string" },
+    "selection_algorithm": { "const": "sha256-stratified-v1" },
+    "requested_samples": { "type": "integer", "minimum": 1 },
+    "checked_files": { "type": "integer", "minimum": 0 },
+    "checked_bytes": { "type": "integer", "minimum": 0 },
+    "categories": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "sample_ids": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-f0-9]{16}$" }
+    },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "rto_observed_seconds": { "type": "number", "minimum": 0 },
+    "temporary_content_removed": { "type": "boolean" },
+    "contains_sample_paths": { "const": false },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string" },
+          "sample_id": { "type": "string", "pattern": "^[a-f0-9]{16}$" },
+          "error": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "result": { "const": "passed" } },
+        "required": ["result"]
+      },
+      "then": {
+        "required": [
+          "snapshot_manifest_sha256",
+          "verification_report",
+          "selection_algorithm",
+          "requested_samples",
+          "contains_sample_paths"
+        ]
+      }
+    }
+  ],
+  "additionalProperties": true
+}

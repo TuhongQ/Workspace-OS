@@ -1,0 +1,15 @@
+strategy: 3-2-1
+retention:
+  hourly_snapshots: 24
+  daily_snapshots: 30
+  weekly_backups: 12
+  monthly_backups: 12
+targets:
+  primary: Workspace
+  local_snapshot: WorkspaceSnapshots
+  external_backup: WorkspaceBackup
+  offsite_encrypted: disabled
+verify:
+  hash: sha256
+  restore_test_days: 90
+

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workspace OS Release Manifest",
+  "type": "object",
+  "required": ["schema_version", "release_version", "generated_at", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "release_version": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "files": {"type": "array", "items": {"type": "object", "required": ["path","size","sha256","modified_time"], "properties": {"path":{"type":"string"},"size":{"type":"integer","minimum":0},"sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"modified_time":{"type":"string"}}}}
+  }
+}
+

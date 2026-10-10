@@ -1,0 +1,6 @@
+# 项目状态
+
+当前状态：`PLANNING`
+
+状态固定为：INBOX / PLANNING / ACTIVE / BLOCKED / REVIEW / RELEASED / PAUSED / ARCHIVED。需求批准进入 ACTIVE，客户验收进入 REVIEW，交付签收进入 RELEASED，达到合同保留节点进入 ARCHIVED。
+

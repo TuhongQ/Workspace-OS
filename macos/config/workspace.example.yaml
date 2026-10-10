@@ -1,0 +1,17 @@
+# 复制为 workspace.yaml 后按设备修改；不要提交私密路径或凭据。
+workspace_name: Workspace
+device_name: My-Windows-PC
+default_project_type: work
+archive_after_days: 365
+large_file_mb: 1024
+log_retention_days: 90
+privacy_mode: metadata-only
+paths:
+  windows: D:\Workspace
+  macos: /Users/yourname/Workspace
+  nas: /Volumes/Workspace
+  iphone_inbox: 00_Inbox/Mobile
+hash:
+  algorithm: sha256
+  chunk_mb: 4
+

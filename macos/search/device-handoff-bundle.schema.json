@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/device-handoff-bundle.schema.json",
+  "title": "Workspace OS Offline Device Handoff Bundle",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_device",
+    "workspace_instance",
+    "source_inventory_sha256",
+    "scopes",
+    "contains_user_data",
+    "transport_protection_confirmed",
+    "simulation",
+    "files"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "source_device": { "type": "string", "minLength": 1 },
+    "workspace_instance": { "type": "string", "minLength": 1 },
+    "source_inventory_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "contains_user_data": { "const": true },
+    "credentials_excluded_by_scope": { "const": true },
+    "transport_protection_confirmed": { "type": "boolean" },
+    "simulation": { "type": "boolean" },
+    "file_count": { "type": "integer", "minimum": 0 },
+    "total_bytes": { "type": "integer", "minimum": 0 },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "size", "sha256"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "size": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": true
+}

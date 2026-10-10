@@ -1,0 +1,7 @@
+mode: copy
+overwrite: false
+verify_sha256: true
+privacy_mode: metadata-only
+quarantine: 00_Inbox/Quarantine
+unknown_target: 00_Inbox/ToSort
+

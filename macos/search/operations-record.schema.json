@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/operations-record.schema.json",
+  "title": "Workspace OS Privacy-Minimised Operations Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "sequence",
+    "recorded_at",
+    "local_day",
+    "previous_hash",
+    "fingerprint",
+    "signals",
+    "measures",
+    "privacy",
+    "record_hash"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "local_day": { "type": "string", "format": "date" },
+    "previous_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "signals": {
+      "type": "object",
+      "required": [
+        "search_available",
+        "snapshot_trusted",
+        "maintenance_integrity",
+        "evidence_valid",
+        "scheduled_tasks_healthy"
+      ],
+      "additionalProperties": { "type": "boolean" }
+    },
+    "measures": {
+      "type": "object",
+      "required": [
+        "recovery_score",
+        "alerts_warning",
+        "alerts_error",
+        "alerts_critical"
+      ],
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "privacy": {
+      "type": "object",
+      "required": [
+        "paths_included",
+        "credentials_included",
+        "business_file_metadata_included"
+      ],
+      "properties": {
+        "paths_included": { "const": false },
+        "credentials_included": { "const": false },
+        "business_file_metadata_included": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "record_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "additionalProperties": false
+}

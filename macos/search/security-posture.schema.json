@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/security-posture-1.0.json",
+  "title": "Workspace OS Security Posture",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "workspace", "status", "privacy_mode", "summary", "findings"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "workspace": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["healthy", "warning", "error", "critical"] },
+    "privacy_mode": { "const": "normalized-sids-no-user-identities" },
+    "summary": {
+      "type": "object",
+      "required": ["existing_paths", "broad_write_paths", "volume_encryption_verified", "findings"],
+      "properties": {
+        "existing_paths": { "type": "integer", "minimum": 0 },
+        "broad_write_paths": { "type": "integer", "minimum": 0 },
+        "volume_encryption_verified": { "type": "boolean" },
+        "findings": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code", "message", "path"],
+        "properties": {
+          "severity": { "enum": ["INFO", "WARNING", "ERROR", "CRITICAL"] },
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

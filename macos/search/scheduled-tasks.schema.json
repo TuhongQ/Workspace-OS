@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/scheduled-tasks.schema.json",
+  "title": "Workspace OS Windows Scheduled Task Evidence",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "task_prefix",
+    "task_count",
+    "healthy",
+    "tasks"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "task_prefix": { "type": "string", "minLength": 1 },
+    "task_count": { "type": "integer", "minimum": 0 },
+    "healthy": { "type": "boolean" },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "state",
+          "enabled",
+          "last_result",
+          "execute",
+          "action_count",
+          "script",
+          "script_sha256",
+          "host_tokens",
+          "argument_tokens",
+          "principal",
+          "trigger_count",
+          "triggers",
+          "settings"
+        ],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "state": { "type": "string" },
+          "enabled": { "type": "boolean" },
+          "last_result": { "type": "integer" },
+          "execute": { "type": "string", "minLength": 1 },
+          "action_count": { "const": 1 },
+          "script": { "type": "string", "minLength": 1 },
+          "script_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "host_tokens": { "type": "array", "items": { "type": "string" } },
+          "argument_tokens": { "type": "array", "items": { "type": "string" } },
+          "principal": {
+            "type": "object",
+            "required": ["user", "logon_type", "run_level"],
+            "properties": {
+              "user": { "type": "string", "minLength": 1 },
+              "logon_type": { "type": "string", "minLength": 1 },
+              "run_level": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": true
+          },
+          "trigger_count": { "const": 1 },
+          "triggers": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["type", "time", "interval", "start_boundary"],
+              "properties": {
+                "type": { "enum": ["daily", "weekly"] },
+                "time": { "type": "string", "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+                "interval": { "type": "integer", "minimum": 1 },
+                "days_of_week": { "type": ["integer", "null"] },
+                "start_boundary": { "type": "string", "format": "date-time" }
+              },
+              "additionalProperties": true
+            }
+          },
+          "settings": {
+            "type": "object",
+            "required": ["execution_time_limit", "start_when_available"],
+            "properties": {
+              "execution_time_limit": { "type": "string" },
+              "start_when_available": { "type": "boolean" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "task_prefix": "WorkspaceOS-",
+  "principal": {
+    "user": "${current_user}",
+    "logon_type": "Interactive",
+    "run_level": "Limited"
+  },
+  "settings": {
+    "execution_time_limit": "PT6H",
+    "start_when_available": true
+  },
+  "tasks": [
+    {
+      "name": "WorkspaceOS-DailySnapshot",
+      "script": "scripts/windows/New-WorkspaceSnapshot.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}", "-Destination", "${snapshots}", "-ExcludeRebuildableCache"],
+      "trigger": {"type": "daily", "time": "01:30", "interval": 1}
+    },
+    {
+      "name": "WorkspaceOS-DailyRetention",
+      "script": "scripts/windows/Invoke-WorkspaceRetention.ps1",
+      "arguments": ["-Destination", "${snapshots}"],
+      "trigger": {"type": "daily", "time": "03:30", "interval": 1}
+    },
+    {
+      "name": "WorkspaceOS-DailyDoctor",
+      "script": "scripts/windows/Invoke-WorkspaceDoctor.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}", "-SnapshotPath", "${snapshots}", "-NasPath", "${nas}"],
+      "trigger": {"type": "daily", "time": "06:00", "interval": 1}
+    },
+    {
+      "name": "WorkspaceOS-DailyControlPlane",
+      "script": "scripts/windows/Update-WorkspaceControlPlane.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}", "-SnapshotPath", "${snapshots}", "-NasPath", "${nas}"],
+      "trigger": {"type": "daily", "time": "06:30", "interval": 1}
+    },
+    {
+      "name": "WorkspaceOS-WeeklySnapshotVerify",
+      "script": "scripts/windows/Test-LatestWorkspaceSnapshot.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}", "-SnapshotPath", "${snapshots}"],
+      "trigger": {"type": "weekly", "time": "04:30", "interval": 1, "days_of_week": 1}
+    },
+    {
+      "name": "WorkspaceOS-WeeklyRestoreDrill",
+      "script": "scripts/windows/Test-WorkspaceRestoreDrill.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}", "-SnapshotPath", "${snapshots}", "-RestoreRoot", "${restore_root}"],
+      "trigger": {"type": "weekly", "time": "05:00", "interval": 1, "days_of_week": 1}
+    },
+    {
+      "name": "WorkspaceOS-WeeklyAudit",
+      "script": "scripts/windows/Audit-Workspace.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}"],
+      "trigger": {"type": "weekly", "time": "05:30", "interval": 1, "days_of_week": 1}
+    },
+    {
+      "name": "WorkspaceOS-WeeklyRecoveryKit",
+      "script": "scripts/windows/New-WorkspaceRecoveryKit.ps1",
+      "arguments": ["-RepositoryPath", "${repository}", "-WorkspacePath", "${workspace}"],
+      "trigger": {"type": "weekly", "time": "07:30", "interval": 1, "days_of_week": 1}
+    },
+    {
+      "name": "WorkspaceOS-WeeklyRecoveryKitRetention",
+      "script": "scripts/windows/Invoke-WorkspaceRecoveryKitRetention.ps1",
+      "arguments": ["-WorkspacePath", "${workspace}"],
+      "trigger": {"type": "weekly", "time": "07:45", "interval": 1, "days_of_week": 1}
+    }
+  ]
+}

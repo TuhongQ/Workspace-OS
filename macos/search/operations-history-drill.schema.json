@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/operations-history-drill.schema.json",
+  "title": "Workspace OS Operations History Drill",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "completed_at",
+    "result",
+    "production_workspace",
+    "drill_root",
+    "synthetic_record_count",
+    "slo",
+    "tamper_verification",
+    "gates",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "result": {"enum": ["passed", "failed"]},
+    "production_workspace": {"type": "string"},
+    "drill_root": {"type": "string"},
+    "synthetic_record_count": {"type": "integer", "minimum": 0},
+    "slo": {
+      "type": "object",
+      "required": ["status", "sample_days", "search_available"],
+      "properties": {
+        "status": {"type": "string"},
+        "sample_days": {"type": "integer", "minimum": 0},
+        "search_available": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "tamper_verification": {
+      "type": "object",
+      "required": ["status", "issue_codes"],
+      "properties": {
+        "status": {"type": "string"},
+        "issue_codes": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "gates": {
+      "type": "object",
+      "required": [
+        "eight_daily_records_created",
+        "history_valid_before_tamper",
+        "error_budget_exhaustion_detected",
+        "three_consecutive_failures_detected",
+        "tamper_detected",
+        "append_blocked_after_tamper",
+        "source_overwrites",
+        "source_deletions"
+      ],
+      "properties": {
+        "eight_daily_records_created": {"type": "boolean"},
+        "history_valid_before_tamper": {"type": "boolean"},
+        "error_budget_exhaustion_detected": {"type": "boolean"},
+        "three_consecutive_failures_detected": {"type": "boolean"},
+        "tamper_detected": {"type": "boolean"},
+        "append_blocked_after_tamper": {"type": "boolean"},
+        "source_overwrites": {"const": 0},
+        "source_deletions": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "privacy": {
+      "type": "object",
+      "required": [
+        "business_file_contents_read",
+        "business_file_metadata_recorded",
+        "credentials_included"
+      ],
+      "properties": {
+        "business_file_contents_read": {"const": false},
+        "business_file_metadata_recorded": {"const": false},
+        "credentials_included": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "output": {"type": "string"}
+  },
+  "additionalProperties": false
+}

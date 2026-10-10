@@ -1,0 +1,9 @@
+{
+  "source": "00_Inbox/ToSort/BOE_datawrite_test.mp4",
+  "suggested_target": "01_Projects/Active/BOE_DataWrite/media/review",
+  "suggested_name": "BOE_DataWrite_TestDemo_2026-07-22_v001_REVIEW.mp4",
+  "confidence": 0.86,
+  "reason": "名称包含 BOE、DataWrite、test，扩展名为 mp4",
+  "privacy_mode": "metadata-only"
+}
+

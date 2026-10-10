@@ -1,0 +1,13 @@
+{
+  "workspace_inbox": "Workspace/00_Inbox/Mobile",
+  "files_subfolder": "Files",
+  "images_subfolder": "Images",
+  "video_subfolder": "Video",
+  "notes_subfolder": "Notes",
+  "date_format": "yyyy-MM-dd",
+  "collision_suffix": "HHmmss",
+  "upload_log": "upload-log.csv",
+  "overwrite": false,
+  "cellular_large_upload_mb": 200
+}
+

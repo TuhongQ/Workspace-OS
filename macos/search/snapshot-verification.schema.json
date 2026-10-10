@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/snapshot-verification.schema.json",
+  "title": "Workspace OS Snapshot Verification Evidence",
+  "type": "object",
+  "required": [
+    "snapshot",
+    "valid",
+    "status",
+    "checked_at",
+    "checked_files",
+    "manifest_sha256",
+    "source_consistency_verified",
+    "snapshot_inventory_sha256",
+    "issues"
+  ],
+  "properties": {
+    "snapshot": { "type": "string", "minLength": 1 },
+    "valid": { "type": "boolean" },
+    "status": { "enum": ["valid", "invalid"] },
+    "checked_at": { "type": "string", "format": "date-time" },
+    "checked_files": { "type": "integer", "minimum": 0 },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "manifest_schema_version": { "type": ["string", "null"] },
+    "source_consistency_verified": { "type": "boolean" },
+    "snapshot_inventory_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "path": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

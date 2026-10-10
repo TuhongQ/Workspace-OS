@@ -1,0 +1,30 @@
+devices:
+  windows:
+    id: windows-main
+    name: My-Windows-PC
+    workspace: D:\Workspace
+  mac:
+    id: macbook-main
+    name: My-Mac
+    workspace: /Users/yourname/Workspace
+  nas:
+    id: nas-main
+    name: My-NAS
+    mount: /Volumes/Workspace
+  iphone:
+    id: iphone-main
+    name: My-iPhone
+    inbox: 00_Inbox/Mobile
+
+handoff:
+  scopes:
+    - 00_Inbox/Mobile
+    - 02_Knowledge
+    - 04_AI
+    - 06_Release
+    - 09_Templates
+  max_file_mb: 512
+  require_verified_receipt_before_primary_switch: true
+  automatic_copy: false
+  automatic_delete: false
+  automatic_overwrite: false

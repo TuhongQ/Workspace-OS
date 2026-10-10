@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/evidence-record.schema.json",
+  "title": "Workspace OS Control-plane Evidence Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "sequence",
+    "generated_at",
+    "event_type",
+    "subject",
+    "previous_hash",
+    "artifacts",
+    "artifacts_sha256",
+    "record_hash"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "event_type": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string", "minLength": 1 },
+    "previous_hash": { "$ref": "#/$defs/sha256" },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "present", "size", "sha256"],
+        "properties": {
+          "path": { "type": "string", "pattern": "^(?!/|[A-Za-z]:|.*\\.\\./).+" },
+          "present": { "type": "boolean" },
+          "size": { "type": ["integer", "null"], "minimum": 0 },
+          "sha256": {
+            "oneOf": [
+              { "$ref": "#/$defs/sha256" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "artifacts_sha256": { "$ref": "#/$defs/sha256" },
+    "record_hash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

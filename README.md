@@ -1,5 +1,19 @@
 # Workspace OS NEXUS Mobile
 
+## macOS 桌面版
+
+本仓库同时保存 [macOS 桌面版源码](macos/)；现有 Android 项目结构不变。
+
+- 下载：[Mac 2.0.6 SystemLog 修正版](https://github.com/TuhongQ/Workspace-OS-Android/releases/tag/macos-2.0.6-systemlog-20261010)
+- 安装：解压 Release 中的 ZIP，将 `Workspace OS.app` 放入“应用程序”。更新前先退出旧版，重要文件自行备份。
+- 要求：Apple Silicon（arm64），macOS 13 或更高。应用为 ad-hoc 签名，未经过 Apple 公证。
+- 系统工作日志：工作区下 `09_System/SystemLog/WorkspaceOS/`，不再写入旧 ObsidianVault 日记目录。
+- 构建：在 macos 目录运行 `zsh scripts/macos/build-native-app.sh /绝对路径/新的构建目录`；需 Xcode Command Line Tools、Python 3.11+、PyInstaller 和带 Tk 的 Python，可通过 `WORKSPACE_BUILD_PYTHON` 指定解释器。
+- 测试：`python3 -m unittest discover -s tests -v`。此次验证 110 项，106 通过，4 项 Windows 专属跳过。
+- 不启用自动同步、自动删除或自动覆盖。源码中的 NAS 地址是部署示例，需在应用设置中改为自己的地址。
+
+以下为原有 Android 版说明。
+
 Workspace OS 2.0 的原生安卓客户端（Kotlin + Jetpack Compose）。通过 SMB2/3 直连 NAS，适用于局域网或 ZeroTier 虚拟网络；深色 NEXUS 科技风界面，与 Windows/macOS 控制中心及网页看板同一套设计语言。
 
 当前版本：**v0.5.4**（minSdk 26 / targetSdk 35）

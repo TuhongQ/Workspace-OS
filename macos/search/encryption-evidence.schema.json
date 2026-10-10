@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/encryption-evidence.schema.json",
+  "title": "Workspace OS Elevated Encryption Evidence",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "platform",
+    "source",
+    "privacy_mode",
+    "workspace_marker_sha256",
+    "mount_point",
+    "filesystem",
+    "volume_id_hash",
+    "query_status",
+    "volume_status",
+    "protection_status",
+    "encryption_percentage",
+    "encryption_method"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "platform": {"const": "windows"},
+    "source": {"const": "elevated-bitlocker"},
+    "privacy_mode": {"const": "hashed-volume-id-no-user-identities"},
+    "workspace_marker_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "mount_point": {"type": "string"},
+    "filesystem": {"type": "string"},
+    "volume_id_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "query_status": {"const": "ok"},
+    "volume_status": {"type": "string"},
+    "protection_status": {"type": "string"},
+    "encryption_percentage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "encryption_method": {"type": "string"}
+  },
+  "additionalProperties": false
+}

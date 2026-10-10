@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-22T00:00:00+00:00",
+  "root": "Workspace",
+  "file_count": 1,
+  "files": [{"path":"06_Release/Documents/Demo_2026-07-22_v1.0_RELEASE.pdf","name":"Demo_2026-07-22_v1.0_RELEASE.pdf","extension":".pdf","size":1234,"created_time":"2026-07-22T00:00:00+00:00","modified_time":"2026-07-22T00:00:00+00:00","project":"Demo","category":"06_Release","version":"v1.0","status":"RELEASE","tags":["demo"],"sha256":null,"summary":"示例发布文档","device":"My-PC","archive_state":"active"}]
+}
+

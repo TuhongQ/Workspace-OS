@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/maintenance-audit.schema.json",
+  "title": "Workspace OS Maintenance Task Integrity Audit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "status",
+    "policy_sha256",
+    "context",
+    "summary",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["healthy", "warning", "error", "critical"] },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "context": {
+      "type": "object",
+      "required": ["repository", "workspace", "snapshots", "nas", "restore_root"],
+      "additionalProperties": { "type": "string" }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "expected_tasks",
+        "observed_tasks",
+        "findings",
+        "critical",
+        "error",
+        "warning"
+      ],
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code", "message"],
+        "properties": {
+          "severity": { "enum": ["INFO", "WARNING", "ERROR", "CRITICAL"] },
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string" },
+          "task": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

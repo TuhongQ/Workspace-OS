@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/security-posture-probe.schema.json",
+  "title": "Workspace OS Windows Security Posture Probe",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "platform",
+    "probe_status",
+    "privacy_mode",
+    "protected_paths",
+    "volume"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "platform": {"const": "windows"},
+    "probe_status": {"enum": ["ok", "timeout", "failed"]},
+    "privacy_mode": {"const": "sid-only-no-user-identities"},
+    "protected_paths": {"type": "array"},
+    "volume": {
+      "type": "object",
+      "required": [
+        "mount_point",
+        "query_status",
+        "query_code",
+        "evidence_source",
+        "live_query_code",
+        "cached_evidence_status"
+      ],
+      "properties": {
+        "mount_point": {"type": "string"},
+        "filesystem": {"type": ["string", "null"]},
+        "query_status": {"enum": ["ok", "unavailable", "timeout", "failed"]},
+        "query_code": {"type": "string"},
+        "volume_status": {"type": ["string", "null"]},
+        "protection_status": {"type": ["string", "null"]},
+        "encryption_percentage": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "encryption_method": {"type": ["string", "null"]},
+        "evidence_source": {
+          "enum": ["none", "live-bitlocker", "cached-elevated"]
+        },
+        "evidence_generated_at": {"type": ["string", "null"]},
+        "evidence_age_hours": {"type": ["number", "null"]},
+        "live_query_code": {"type": "string"},
+        "cached_evidence_status": {"type": "string"},
+        "volume_id_hash": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/security-audit-1.0.json",
+  "title": "Workspace OS Privacy-Preserving Security Audit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "workspace",
+    "status",
+    "privacy_mode",
+    "summary",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "workspace": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["healthy", "warning", "error", "critical"] },
+    "privacy_mode": { "const": "redacted-findings-no-secret-values" },
+    "summary": {
+      "type": "object",
+      "required": [
+        "scanned_files",
+        "findings",
+        "critical",
+        "error",
+        "warning",
+        "truncated"
+      ],
+      "properties": {
+        "scanned_files": { "type": "integer", "minimum": 0 },
+        "findings": { "type": "integer", "minimum": 0 },
+        "critical": { "type": "integer", "minimum": 0 },
+        "error": { "type": "integer", "minimum": 0 },
+        "warning": { "type": "integer", "minimum": 0 },
+        "truncated": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code", "path", "message"],
+        "properties": {
+          "severity": { "enum": ["INFO", "WARNING", "ERROR", "CRITICAL"] },
+          "code": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "line": { "type": "integer", "minimum": 1 },
+          "message": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

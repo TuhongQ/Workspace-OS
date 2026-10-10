@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/device-handoff-receipt-1.0.json",
+  "title": "Workspace OS Device Handoff Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "status",
+    "safe_to_switch_primary_device",
+    "receipt_id",
+    "source_device",
+    "target_device",
+    "source_inventory_sha256",
+    "target_inventory_sha256",
+    "scopes",
+    "comparison"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["verified", "blocked"] },
+    "safe_to_switch_primary_device": { "type": "boolean" },
+    "receipt_id": { "type": "string", "pattern": "^[0-9a-f]{24}$" },
+    "source_device": { "type": "string", "minLength": 1 },
+    "target_device": { "type": "string", "minLength": 1 },
+    "source_inventory_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "target_inventory_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "comparison": { "type": "object" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "verified" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "safe_to_switch_primary_device": { "const": true }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}

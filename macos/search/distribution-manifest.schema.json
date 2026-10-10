@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://workspace-os.local/schema/distribution-manifest-1.0.json",
+  "title": "Workspace OS Distribution Manifest",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "product", "version", "source_fingerprint", "privacy", "entrypoints", "files"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "product": { "const": "Workspace OS" },
+    "version": { "type": "string", "minLength": 1 },
+    "source_fingerprint": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "privacy": {
+      "type": "object",
+      "required": ["user_data", "credentials"],
+      "properties": {
+        "user_data": { "const": false },
+        "credentials": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "entrypoints": {
+      "type": "object",
+      "required": ["trial", "install", "cli"],
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "size", "sha256"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "size": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": true
+}
