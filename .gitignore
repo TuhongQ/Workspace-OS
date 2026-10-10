@@ -9,3 +9,17 @@ build/
 local.properties
 .gradle/
 .kotlin/
+
+# Cross-platform outputs and local secrets
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.mobileprovision
+*.ipa
+*.dmg
+*.app/
